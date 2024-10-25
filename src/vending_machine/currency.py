@@ -3,7 +3,7 @@ class Currency:
 
     # Define available denominations in pence (for simplicity)
     # Denominations are sorted in descending order for easier change calculation
-    DENOMINATIONS = [200, 100, 50, 20, 10, 5, 2, 1]
+    DENOMINATIONS = (200, 100, 50, 20, 10, 5, 2, 1)
     MAX_DENOMINATION_COUNT = 20
 
     def __init__(self):
@@ -51,7 +51,7 @@ class Currency:
             raise ValueError("Unable to return exact change")
         return change
 
-    def update_denominations(self, change: dict) -> None:
+    def update_denomination_counts(self, change: dict) -> None:
         """Update the counts of denominations based on the change.
 
         Args:
@@ -62,9 +62,9 @@ class Currency:
             TypeError: If count is not an integer.
         """
         for denom, count in change.items():
-            self.update_denomination(denom, count)
+            self.update_denomination_count(denom, count)
 
-    def update_denomination(self, denom: int, count: int) -> None:
+    def update_denomination_count(self, denom: int, count: int) -> None:
         """Update the count of a specific denomination.
 
         Args:
@@ -80,13 +80,13 @@ class Currency:
         if not self.is_valid_denomination(denom):
             raise ValueError(f"{denom} is not a valid denomination")
 
-        new_count = self.denomination_counts.get(denom) + count
+        new_count = self._denomination_counts.get(denom) + count
         if new_count < 0:
             raise ValueError(f"Cannot update {denom}: resulting count would be negative")
         if new_count > Currency.MAX_DENOMINATION_COUNT:
             raise ValueError(f"Cannot update {denom}: exceeds maximum allowed count")
 
-        self.denomination_counts[denom] = new_count
+        self._denomination_counts[denom] = new_count
 
     def calculate_denominations_total(self):
         """Calculate the total value of the denominations.
@@ -94,4 +94,4 @@ class Currency:
         Returns:
             int: The total value of all denominations.
         """
-        return sum(denom * count for denom, count in self.denomination_counts.items())
+        return sum(denom * count for denom, count in self._denomination_counts.items())

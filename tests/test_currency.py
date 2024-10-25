@@ -26,23 +26,23 @@ class TestCurrency(unittest.TestCase):
 
     def test_update_denomination_valid(self):
         """Test updating a valid denomination count."""
-        self.currency.update_denomination(100, 5)
+        self.currency.update_denomination_count(100, 5)
         self.assertEqual(self.currency.denomination_counts[100], 15)
 
     def test_update_denomination_invalid(self):
         """Test updating an invalid denomination raises an error."""
         with self.assertRaises(ValueError):
-            self.currency.update_denomination(3, 1)
+            self.currency.update_denomination_count(3, 1)
 
     def test_update_denomination_negative_result(self):
         """Test updating denomination count to negative raises an error."""
         with self.assertRaises(ValueError):
-            self.currency.update_denomination(10, -15)  # Would result in negative count
+            self.currency.update_denomination_count(10, -15)  # Would result in negative count
 
     def test_update_denomination_exceed_max_count(self):
         """Test updating denomination exceeds maximum count raises an error."""
         with self.assertRaises(ValueError):
-            self.currency.update_denomination(20, 15)  # Would exceed the max count of 20
+            self.currency.update_denomination_count(20, 15)  # Would exceed the max count of 20
 
     def test_calculate_denominations_total(self):
         """Test calculating total value of denominations."""
