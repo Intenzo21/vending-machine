@@ -56,6 +56,37 @@ class TestCurrency(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.currency.calculate_change(total + 1)  # More than total value
 
+    def test_denomination_counts_valid_updates(self):
+        """Test updating multiple denominations with valid updates."""
+        updates = {100: 5, 50: -3}
+        self.currency.update_denomination_counts(updates)
+        self.assertEqual(self.currency.denomination_counts[100], 15)
+        self.assertEqual(self.currency.denomination_counts[50], 7)
+
+    def test_denomination_counts_invalid_denomination(self):
+        """Test updating with an invalid denomination raises an error."""
+        updates = {3: 1}
+        with self.assertRaises(ValueError):
+            self.currency.update_denomination_counts(updates)
+
+    def test_denomination_counts_negative_result(self):
+        """Test updating denomination counts to negative raises an error."""
+        updates = {10: -15}
+        with self.assertRaises(ValueError):
+            self.currency.update_denomination_counts(updates)
+
+    def test_denomination_counts_exceed_max_count(self):
+        """Test updating denomination counts exceeds maximum count raises an error."""
+        updates = {20: 15}
+        with self.assertRaises(ValueError):
+            self.currency.update_denomination_counts(updates)
+
+    def test_denomination_counts_invalid_type(self):
+        """Test updating denomination counts with non-integer raises an error."""
+        updates = {200: 1, 100: "five"}
+        with self.assertRaises(TypeError):
+            self.currency.update_denomination_counts(updates)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -15,7 +15,8 @@ class Currency:
         return self._denomination_counts.copy()  # Return a copy to prevent direct modification
 
     def is_valid_denomination(self, denom: int) -> bool:
-        """Check if the denomination is valid.
+        """
+        Check if the denomination is valid.
 
         Args:
             denom (int): The denomination to check.
@@ -26,7 +27,8 @@ class Currency:
         return denom in self._denomination_counts
 
     def calculate_change(self, balance: int) -> dict:
-        """Calculate the change to return based on the balance.
+        """
+        Calculate the change to return based on the balance.
 
         Args:
             balance (int): The amount for which change is to be calculated.
@@ -51,45 +53,65 @@ class Currency:
             raise ValueError("Unable to return exact change")
         return change
 
-    def update_denomination_counts(self, change: dict) -> None:
-        """Update the counts of denominations based on the change.
+    def update_denomination_counts(self, updates: dict) -> None:
+        """
+        Update the counts of denominations based on the updates.
 
         Args:
-            change (dict): A dictionary with denominations as keys and their counts as values.
+            updates (dict): A dictionary with denominations as keys and their change in counts as values.
+                            Positive values increase the count, while negative values decrease it.
 
         Raises:
             ValueError: If the denomination is invalid, or if the new count would be negative or exceeds the maximum allowed count.
             TypeError: If count is not an integer.
         """
-        for denom, count in change.items():
-            self.update_denomination_count(denom, count)
+        for denom, count_update in updates.items():
+            self._validate_denomination_count_update(denom, count_update)
 
-    def update_denomination_count(self, denom: int, count: int) -> None:
-        """Update the count of a specific denomination.
+        for denom, count_update in updates.items():
+            self._denomination_counts[denom] += count_update
+
+    def update_denomination_count(self, denom: int, count_update: int) -> None:
+        """
+        Update the count of a specific denomination.
 
         Args:
             denom (int): The denomination to update.
-            count (int): The amount to add (or subtract if negative).
+            count_update (int): The amount to add (or subtract if negative).
 
         Raises:
             ValueError: If the denomination is invalid, or if the new count would be negative or exceeds the maximum allowed count.
             TypeError: If count is not an integer.
         """
-        if not isinstance(count, int):
+        self._validate_denomination_count_update(denom, count_update)
+        self._denomination_counts[denom] += count_update
+
+    def _validate_denomination_count_update(self, denom: int, count_update: int) -> None:
+        """
+        Validate the update of a specific denomination count.
+
+        Args:
+            denom (int): The denomination to update.
+            count_update (int): The amount to add (or subtract if negative).
+
+        Raises:
+            ValueError: If the denomination is invalid, or if the new count would be negative or exceeds the maximum allowed count.
+            TypeError: If count is not an integer.
+        """
+        if not isinstance(count_update, int):
             raise TypeError("Count must be an integer.")
         if not self.is_valid_denomination(denom):
             raise ValueError(f"{denom} is not a valid denomination")
 
-        new_count = self._denomination_counts.get(denom) + count
+        new_count = self._denomination_counts.get(denom) + count_update
         if new_count < 0:
             raise ValueError(f"Cannot update {denom}: resulting count would be negative")
         if new_count > Currency.MAX_DENOMINATION_COUNT:
             raise ValueError(f"Cannot update {denom}: exceeds maximum allowed count")
 
-        self._denomination_counts[denom] = new_count
-
     def calculate_denominations_total(self):
-        """Calculate the total value of the denominations.
+        """
+        Calculate the total value of the denominations.
 
         Returns:
             int: The total value of all denominations.
