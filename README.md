@@ -40,10 +40,6 @@ Follow these steps to install the application:
     ```sh
     cd vending-machine
     ```
-3. Install the required dependencies:
-    ```sh
-    pip3 install -r requirements.txt
-    ```
 
 ## Usage
 
