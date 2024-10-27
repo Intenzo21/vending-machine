@@ -82,6 +82,8 @@ python3 -m unittest discover -s tests
 
 - **Profit Tracking System**: Introducing a robust profit tracking system to monitor financial performance over time.
 
+- **Removing Products**: Implementing a feature to remove products from the inventory.
+
 ## Contributing
 
 Contributions are welcome! Please fork the repository and create a pull request with your changes.
