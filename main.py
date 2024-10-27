@@ -45,7 +45,8 @@ def select_product(vending_machine: VendingMachine) -> None:
     """
     display_products(vending_machine)
     try:
-        product_id = validate_integer_input("\nEnter product ID to purchase: ", PRODUCT_ID)
+        print(f"\nCurrent balance: {vending_machine.balance}p")
+        product_id = validate_integer_input("Enter product ID to purchase: ", PRODUCT_ID)
         vending_machine.purchase_product(product_id)
         logger.info(
             f"Product with ID {product_id} purchased successfully. Remaining balance: {vending_machine.balance}p.")
@@ -143,7 +144,11 @@ def dispense_change(vending_machine: VendingMachine) -> None:
     logger.info("Dispensing change...")
     try:
         change = vending_machine.dispense_change()
-        logger.info(f"Change {change} dispensed successfully.")
+        change_total = 0
+        for denom, count in change.items():
+            change_total -= denom * count  # Negative count means dispensing that denomination
+            change[denom] = -count  # Change count to positive for display
+        logger.info(f"Change {change_total}p dispensed successfully. Dispensed denominations: {change}")
     except ValueError as e:
         logger.error(f"Error dispensing change: {e}")
 
