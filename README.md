@@ -42,7 +42,7 @@ Follow these steps to install the application:
     ```
 3. Install the required dependencies:
     ```sh
-    pip install -r requirements.txt
+    pip3 install -r requirements.txt
     ```
 
 ## Usage
@@ -50,7 +50,7 @@ Follow these steps to install the application:
 Run the main script to start the vending machine simulation:
 
 ```sh
-python -m main.py
+python3 main.py
 ```
 
 ## Project Structure
@@ -71,7 +71,7 @@ python -m main.py
 To run the tests, use the following command:
 
 ```sh
-python -m unittest discover -s tests
+python3 -m unittest discover -s tests
 ```
 
 ## Future Enhancement Ideas
