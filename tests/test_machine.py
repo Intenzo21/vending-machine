@@ -64,7 +64,7 @@ class TestVendingMachine(unittest.TestCase):
         self.vending_machine.purchase_product(1)  # Purchase product ID 1
         self.assertEqual(self.vending_machine.balance, 80)  # 200 - 120 is 80
         change = self.vending_machine.dispense_change()
-        self.assertEqual(change, self.vending_machine._currency.calculate_change(80))
+        self.assertEqual(change, {50: -1, 20: -1, 10: -1})
 
     def test_purchase_product_insufficient_balance(self):
         """Test purchasing a product with insufficient balance."""

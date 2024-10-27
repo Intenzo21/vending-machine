@@ -80,7 +80,7 @@ class Currency:
             count = min(balance // denom, self._denomination_counts[denom])
             if count > 0:
                 balance -= denom * count
-                change[denom] = count
+                change[denom] = -count
         if balance > 0:
             raise ValueError("Unable to return exact change. Please reload currency denominations.")
         return change

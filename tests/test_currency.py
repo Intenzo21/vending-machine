@@ -28,9 +28,9 @@ class TestCurrency(unittest.TestCase):
     def test_calculate_change_success(self):
         """Test calculating change for various amounts."""
         test_cases = [
-            (200, {200: 1}),
-            (50, {50: 1}),
-            (70, {50: 1, 20: 1}),  # Example of multiple denominations
+            (200, {200: -1}),
+            (50, {50: -1}),
+            (70, {50: -1, 20: -1}),  # Example of multiple denominations
         ]
         for amount, expected_change in test_cases:
             with self.subTest(amount=amount):
@@ -71,7 +71,7 @@ class TestCurrency(unittest.TestCase):
     def test_update_denomination_exceed_max_count(self):
         """Test exceeding the maximum denomination count limit raises an error."""
         diff = Currency.MAX_DENOMINATION_COUNT - Currency.INITIAL_DENOMINATION_COUNT
-        denoms = [20, 100]
+        denoms = [1, 20, 100]
         for denom in denoms:
             count_update = diff + 1
             with self.subTest(denom=denom, count_update=count_update):
@@ -88,6 +88,12 @@ class TestCurrency(unittest.TestCase):
         denominations_total = self.currency.calculate_denominations_total()
         with self.assertRaises(ValueError):
             self.currency.calculate_change(denominations_total + 1)
+
+    def test_calculate_change_exact_change_unavailable(self):
+        """Raises error when exact change cannot be returned."""
+        self.currency.update_denomination_count(1, -Currency.INITIAL_DENOMINATION_COUNT)  # Remove all 1p coins
+        with self.assertRaises(ValueError):
+            self.currency.calculate_change(3)
 
     def test_denomination_counts_valid_updates(self):
         """Test updating multiple denominations with valid changes."""

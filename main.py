@@ -182,7 +182,8 @@ def main():
     sample_products = [
         Product(id_=1, name="Soda", price=120, quantity=10),
         Product(id_=2, name="Chips", price=80, quantity=5),
-        Product(id_=3, name="Candy", price=100, quantity=8)
+        Product(id_=3, name="Bio Banana", price=200, quantity=20),  # :)
+        Product(id_=4, name="Candy", price=100, quantity=8)
     ]
 
     # Load sample products into the vending machine
