@@ -49,7 +49,7 @@ class Product:
         validate_quantity(amount)
         new_quantity = self._quantity + amount
         if new_quantity > Product.MAX_QUANTITY:
-            raise ValueError("Cannot exceed maximum stock quantity")
+            raise ValueError("Cannot exceed maximum stock quantity.")
         self._quantity = new_quantity
 
     def reduce_quantity(self, amount: int = 1):
