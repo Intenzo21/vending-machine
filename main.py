@@ -29,6 +29,7 @@ def insert_money(vending_machine: VendingMachine) -> None:
         vending_machine (VendingMachine): The vending machine object
     """
     try:
+        print(f"\nCurrent balance: {vending_machine.balance}p")
         denom = validate_integer_input("Enter denomination to insert (in pence): ", "Denomination")
         vending_machine.insert_money(denom)
         logger.info(f"Inserted money: {denom}p. Current balance: {vending_machine.balance}p.")
