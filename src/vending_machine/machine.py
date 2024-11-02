@@ -1,5 +1,6 @@
 from .currency import Currency
-from .inventory import Inventory, Product
+from .inventory import Inventory
+from .product import Product
 
 
 class VendingMachine:
