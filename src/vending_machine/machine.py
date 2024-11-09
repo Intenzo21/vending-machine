@@ -1,6 +1,7 @@
 from .currency import Currency
 from .inventory import Inventory
 from .product import Product
+from .utils import validate_quantity
 
 
 class VendingMachine:
@@ -113,6 +114,7 @@ class VendingMachine:
             denom (int): The denomination to reload.
             count (int): The quantity to add.
         """
+        count = validate_quantity(count)
         self._currency.update_denomination_count(denom, count)
 
     def get_denomination_counts(self) -> dict:
